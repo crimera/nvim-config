@@ -1,20 +1,26 @@
 return {
 	"neovim/nvim-lspconfig",
 	dependecies = {
-		{
-			"j-hui/fidget.nvim",
-			opts = {},
-		},
 		"williamboman/mason.nvim",
 		"williamboman/mason-lspconfig.nvim",
+	},
+	keys = {
+		{
+			"<leader>rn",
+			function()
+				vim.lsp.buf.rename()
+			end,
+			"Rename",
+		},
 	},
 	config = function()
 		-- Set up lspconfig.
 		local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 		local servers = {
-			{"gopls", opts = {}},
 			"vtsls",
+			"gopls",
+			"rust_analyzer",
 			"svelte",
 			"tailwindcss",
 			"cssls",

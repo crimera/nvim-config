@@ -8,8 +8,8 @@ return {
 			function()
 				require("telescope.builtin").find_files()
 			end,
-			mode = "n",
-			desc = "Find files in git repo",
+			mode = {"n", "i"},
+			desc = "Find files",
 		},
 		{
 			"<leader>g",
@@ -17,7 +17,7 @@ return {
 				require("telescope.builtin").grep_string()
 			end,
 			mode = "n",
-			desc = "Find files in git repo",
+			desc = "Grep",
 		},
 		{
 			"<leader>f",
@@ -25,7 +25,7 @@ return {
 				require("telescope.builtin").git_files()
 			end,
 			mode = "n",
-			desc = "Find files",
+			desc = "Find files in git repo",
 		},
 		{
 			"<leader><leader>",
