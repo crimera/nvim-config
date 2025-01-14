@@ -1,3 +1,12 @@
+vim.keymap.set("n", "<leader>t", function()
+	vim.api.nvim_command("echo nvim_get_current_win()")
+	-- if not is_no_name_buffer() then
+	-- 	new_window_bottom(15)
+	-- end
+	--
+	-- start_terminal_window()
+end)
+
 function valueInArray(array, value) 
 	for _, v in ipairs(array) do 
 		if v == value then 
@@ -39,14 +48,6 @@ local function start_terminal_window()
 
 	terminal_window = vim.api.nvim_get_current_win()
 end
-
-vim.keymap.set("n", "<leader>t", function()
-	if not is_no_name_buffer() then
-		new_window_bottom(15)
-	end
-
-	start_terminal_window()
-end)
 
 vim.keymap.set({"n", "t"}, "<c-\\>", function()
 	if vim.api.nvim_get_current_win() == terminal_window then
