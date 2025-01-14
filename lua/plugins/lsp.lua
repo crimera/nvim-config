@@ -24,7 +24,8 @@ return {
 			"svelte",
 			"tailwindcss",
 			"cssls",
-			"pyright"
+			"pyright",
+			"clangd"
 		}
 
 		for _, server in pairs(servers) do

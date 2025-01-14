@@ -47,10 +47,6 @@ vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagn
 vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
--- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
--- or just use <C-\><C-n> to exit terminal mode
-vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>:wincmd p<CR>", { desc = "Exit terminal mode" })
-
 --  See `:help wincmd` for a list of all window commands
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
@@ -79,33 +75,15 @@ vim.cmd([[
   highlight NonText ctermbg=none
 ]])
 
--- terminal
-
-vim.api.nvim_create_autocmd("TermOpen", {
-	group = vim.api.nvim_create_augroup("custom-term-open", { clear = true }),
-	callback = function()
-		vim.opt_local.number = false
-		vim.opt_local.relativenumber = false
-	end,
-})
-
-local function is_no_name_buffer()
-	local buf_name = vim.api.nvim_buf_get_name(0)
-	return buf_name == ""
-end
-
-vim.keymap.set("n", "<leader>t", function()
-	if not is_no_name_buffer() then
-		vim.cmd.new()
-		vim.api.nvim_command("botright wincmd J")
-		vim.api.nvim_win_set_height(0, 15)
-	end
-
-	vim.api.nvim_command("terminal")
-	vim.api.nvim_command("startinsert")
-end)
-
 -- tabs
 vim.keymap.set({ "n", "t" }, "<c-k>", "<CMD>tabnext +1<CR>", { desc = "Next tab" })
 vim.keymap.set({ "n", "t" }, "<c-j>", "<CMD>tabnext -1<CR>", { desc = "Previous tab" })
 vim.keymap.set({ "n" }, "<leader>nt", "<CMD>tabnew<CR>", { desc = "New tab" })
+vim.keymap.set({ "n" }, "<leader>ntt", function() 
+	vim.api.nvim_command("tabnew")
+
+	vim.api.nvim_command("terminal")
+	vim.api.nvim_command("startinsert")
+
+	terminal_window = vim.api.nvim_get_current_win()
+end, { desc = "New terminal tab" })
