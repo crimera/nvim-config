@@ -18,6 +18,8 @@ return {
 		local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 		local servers = {
+			"angularls",
+			"html",
 			"vtsls",
 			"gopls",
 			"rust_analyzer",
@@ -25,7 +27,8 @@ return {
 			"tailwindcss",
 			"cssls",
 			"pyright",
-			"clangd"
+			"clangd",
+			"zls"
 		}
 
 		for _, server in pairs(servers) do

@@ -1,12 +1,3 @@
-vim.keymap.set("n", "<leader>t", function()
-	vim.api.nvim_command("echo nvim_get_current_win()")
-	-- if not is_no_name_buffer() then
-	-- 	new_window_bottom(15)
-	-- end
-	--
-	-- start_terminal_window()
-end)
-
 function valueInArray(array, value) 
 	for _, v in ipairs(array) do 
 		if v == value then 
@@ -15,6 +6,9 @@ function valueInArray(array, value)
 	end 
 	return false 
 end
+
+local terminal_window = nil
+local previous_window = nil
 
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
@@ -25,6 +19,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
 	callback = function()
 		vim.opt_local.number = false
 		vim.opt_local.relativenumber = false
+		terminal_window = vim.api.nvim_get_current_win()
 	end,
 })
 
@@ -32,9 +27,6 @@ local function is_no_name_buffer()
 	local buf_name = vim.api.nvim_buf_get_name(0)
 	return buf_name == ""
 end
-
-local terminal_window = nil
-local previous_window = nil
 
 local function new_window_bottom(height)
 	vim.cmd.new()
@@ -48,6 +40,14 @@ local function start_terminal_window()
 
 	terminal_window = vim.api.nvim_get_current_win()
 end
+
+vim.keymap.set("n", "<c-t>", function()
+	if not is_no_name_buffer() then
+		new_window_bottom(15)
+	end
+
+	start_terminal_window()
+end)
 
 vim.keymap.set({"n", "t"}, "<c-\\>", function()
 	if vim.api.nvim_get_current_win() == terminal_window then
@@ -69,7 +69,9 @@ vim.keymap.set({"n", "t"}, "<c-\\>", function()
 	if terminal_window then
 		vim.api.nvim_set_current_win(terminal_window)
 	else
-		new_window_bottom(15)
+		if not is_no_name_buffer() then
+			new_window_bottom(15)
+		end
 
 		start_terminal_window()
 	end
