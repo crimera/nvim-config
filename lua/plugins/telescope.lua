@@ -35,5 +35,12 @@ return {
 			mode = "n",
 			desc = "List buffers",
 		},
+		{
+			"gd",
+			function()
+				require("telescope.builtin").lsp_definitions()
+			end,
+			"[G]oto [D]efinitions"
+		}
 	},
 }

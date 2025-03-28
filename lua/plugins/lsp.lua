@@ -13,14 +13,15 @@ return {
 			"Rename",
 		},
 	},
+	opts = {},
 	config = function()
 		-- Set up lspconfig.
-		local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 		local servers = {
 			"angularls",
 			"html",
 			"vtsls",
+			"ts_ls",
 			"gopls",
 			"rust_analyzer",
 			"svelte",
@@ -28,7 +29,7 @@ return {
 			"cssls",
 			"pyright",
 			"clangd",
-			"zls"
+			"zls",
 		}
 
 		for _, server in pairs(servers) do
