@@ -1,5 +1,15 @@
 return {
-	{ "zbirenbaum/copilot.lua", opts = true }, -- or github/copilot.vim
+	{
+		"zbirenbaum/copilot.lua",
+		config = function()
+			require("copilot").setup({
+				suggestion = {
+					enabled = true,
+					auto_trigger = true,
+				},
+			})
+		end,
+	}, -- or github/copilot.vim
 	{
 		"CopilotC-Nvim/CopilotChat.nvim",
 		dependencies = {
@@ -40,7 +50,7 @@ return {
 		},
 		opts = {
 			debug = false,
-			model = "claude-3.7-sonnet",
+			model = "claude-3.5-sonnet",
 
 			window = {
 				layout = "float",
