@@ -70,7 +70,29 @@ return {
 	},
 	{
 		"olimorris/codecompanion.nvim",
+		keys = {
+			{
+				"<C-c>",
+				function()
+					-- Toggle NeoTree
+					vim.cmd("Neotree close")
+
+					-- Also toggle CodeCompanion
+					require("codecompanion").toggle()
+				end,
+				desc = "CodeCompanion chat",
+				mode = { "i", "n" },
+			},
+		},
 		opts = {
+			display = {
+				chat = {
+					window = {
+						position = "right",
+						width = 0.35,
+					},
+				},
+			},
 			adapters = {
 				copilot = function()
 					return require("codecompanion.adapters").extend("copilot", {
@@ -94,12 +116,45 @@ return {
 			strategies = {
 				chat = {
 					adapter = "copilot",
+					keymaps = {
+						close = {
+							modes = { n = "<C-S-c>", i = "<C-S-c>" },
+						},
+						-- Add further custom keymaps here
+					},
 				},
 				inline = {
 					adapter = "copilot_inline",
 				},
 			},
 		},
+		init = function()
+			local progress = require("fidget.progress")
+			local handle = nil
+
+			local group = vim.api.nvim_create_augroup("CodeCompanionFidgetHooks", {})
+
+			vim.api.nvim_create_autocmd({ "User" }, {
+				pattern = "CodeCompanionRequest*",
+				group = group,
+				callback = function(request)
+					if request.match == "CodeCompanionRequestStarted" then
+						local adapter_name = "TODO"
+						local model_name = "TODO"
+						handle = progress.handle.create({
+							title = " Requesting assistance",
+							lsp_client = {
+								name = string.format("CodeCompanion (%s - %s)", adapter_name, model_name),
+							},
+						})
+					elseif request.match == "CodeCompanionRequestFinished" then
+						if handle then
+							handle:finish()
+						end
+					end
+				end,
+			})
+		end,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",

@@ -11,7 +11,29 @@ return {
 	},
 	cmd = "Neotree",
 	keys = {
-		{ "<leader>e", ":Neotree reveal<CR>", desc = "NeoTree reveal", silent = true },
+		{
+			"<leader>e",
+			function()
+				-- Check if CodeCompanion is open and close it if it is
+				local codecompanion = require("codecompanion")
+				local windows = vim.api.nvim_list_wins()
+
+				-- Look for CodeCompanion window
+				for _, win in ipairs(windows) do
+					local buf = vim.api.nvim_win_get_buf(win)
+					local name = vim.api.nvim_buf_get_name(buf)
+					if string.match(name, "CodeCompanion") then
+						codecompanion.toggle()
+						break
+					end
+				end
+
+				-- Toggle NeoTree
+				vim.cmd("Neotree toggle")
+			end,
+			desc = "NeoTree reveal",
+			silent = true,
+		},
 	},
 	opts = {
 		filesystem = {
