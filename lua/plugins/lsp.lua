@@ -21,7 +21,6 @@ return {
 			"angularls",
 			"html",
 			"vtsls",
-			"ts_ls",
 			"gopls",
 			"rust_analyzer",
 			"svelte",
