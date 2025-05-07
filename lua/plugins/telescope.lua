@@ -3,6 +3,14 @@ return {
 	tag = "0.1.8",
 	dependencies = { "nvim-lua/plenary.nvim" },
 	keys = {
+        {
+            "<leader>q",
+            function()
+                require("telescope.builtin").quickfix()
+            end,
+            mode = "n",
+            desc = "Show quickfix list",
+        },
 		{
 			"<C-p>",
 			function()
